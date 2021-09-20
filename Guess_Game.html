@@ -1,0 +1,237 @@
+<html>
+
+<head>
+  <title>
+    Imersão Dev - Aula 03
+  </title>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="page-title">
+      Guess Game
+    </h1>
+    <button type="submit" onclick="GuessWord()">TYPE A WORD</button>
+    <br>
+    <canvas width="145" height="300"></canvas>
+    <br>
+    <h2 class="hiddenWord" id="hiddenWord"></h2>
+    <br>
+    <button class="keyboard" type="submit" onclick="guess('a')">A</button>
+    <button class="keyboard" type="submit" onclick="guess('b')">B</button>
+    <button class="keyboard" type="submit" onclick="guess('c')">C</button>
+    <button class="keyboard" type="submit" onclick="guess('d')">D</button>
+    <button class="keyboard" type="submit" onclick="guess('e')">E</button>
+    <button class="keyboard" type="submit" onclick="guess('f')">F</button>
+    <button class="keyboard" type="submit" onclick="guess('g')">G</button>
+    <button class="keyboard" type="submit" onclick="guess('h')">H</button>
+    <button class="keyboard" type="submit" onclick="guess('i')">I</button>
+    <br>
+    <button class="keyboard" type="submit" onclick="guess('j')">J</button>
+    <button class="keyboard" type="submit" onclick="guess('k')">K</button>
+    <button class="keyboard" type="submit" onclick="guess('l')">L</button>
+    <button class="keyboard" type="submit" onclick="guess('m')">M</button>
+    <button class="keyboard" type="submit" onclick="guess('n')">N</button>
+    <button class="keyboard" type="submit" onclick="guess('o')">O</button>
+    <button class="keyboard" type="submit" onclick="guess('p')">P</button>
+    <button class="keyboard" type="submit" onclick="guess('q')">Q</button>
+    <button class="keyboard" type="submit" onclick="guess('r')">R</button>
+    <br>
+    <button class="keyboard" type="submit" onclick="guess('s')">S</button>
+    <button class="keyboard" type="submit" onclick="guess('t')">T</button>
+    <button class="keyboard" type="submit" onclick="guess('u')">U</button>
+    <button class="keyboard" type="submit" onclick="guess('v')">V</button>
+    <button class="keyboard" type="submit" onclick="guess('w')">W</button>
+    <button class="keyboard" type="submit" onclick="guess('x')">X</button>
+    <button class="keyboard" type="submit" onclick="guess('y')">Y</button>
+    <button class="keyboard" type="submit" onclick="guess('z')">Z</button>
+  </div>
+  <a href="https://alura.com.br/" target="_blank">
+    <img src="https://www.alura.com.br/assets/img/home/alura-logo.svg" alt="" class="alura-logo">
+  </a>
+  <script src="app.js"></script>
+</body>
+
+</html>
+
+<style>
+body {
+  font-family: "Roboto Mono", monospace;
+  min-height: 600px;
+  background-color: #000000;
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+
+.container {
+  justify-content: center;
+  place-items: center;
+  text-align: center;
+  padding: 20px;
+  height: 100vh;
+}
+
+.page-title {
+  color: #ffffff;
+  margin: 0 0 5px;
+}
+
+.page-subtitle {
+  color: #ffffff;
+  margin-top: 16px;
+}
+
+.page-logo {
+  width: 200px;
+}
+
+.alura-logo {
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-height: 500px) {
+  body {
+    min-height: 800px;
+  }
+}
+
+input {
+  margin: 4px;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+button {
+  margin-top: 12px;
+  padding: 4px 8px;
+  background: #ffffff;
+}
+
+.hiddenWord {
+  color: #ffffff;
+  text-align: center;
+  margin-top: 16px;
+}
+
+canvas {
+  margin-top: 16px;
+  background: #000000;
+}
+
+.keyboard {
+  justify-content: center;
+  place-items: center;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.keyboard:hover {
+  background: #444444;
+}
+
+</style>
+
+<script>
+
+var paintbrush = document.querySelector("canvas").getContext("2d");
+var guessWord;
+var underLine = [];
+//
+paintbrush.fillStyle = "white";
+paintbrush.fillRect(0, 280, 40, 20);
+paintbrush.fillRect(10, 10, 20, 280);
+paintbrush.fillRect(10, 10, 110, 20);
+paintbrush.fillRect(100, 10, 20, 40);
+//
+
+function GuessWord() {
+  var guessWord1 = prompt("Type a word!");
+  guessWord = Array.from(guessWord1);
+  for (var i = 0; i < guessWord.length; i++) {
+    underLine[i] = "_";
+  } //for underLine
+  document.getElementById("hiddenWord").innerHTML = underLine.join(" ");
+} //GuessWord
+
+var letra;
+var attempt = 0;
+
+function guess(letra) {
+  for (var i = 0, j = 0; i < guessWord.length; i++) {
+    if (letra == guessWord[i]) {
+      underLine[i] = letra;
+    } else {
+      j++;
+      if (j == guessWord.length) {
+        attempt++;
+        stickMan(attempt);
+      } //if attempt
+    } //if letra
+  } //for guessWord
+  document.getElementById("hiddenWord").innerHTML = underLine.join(" ");
+} //guess
+
+function stickMan(attempt) {
+  if (attempt == 1) {
+    paintbrush.beginPath();
+    paintbrush.arc(110, 75, 20, 0, 2 * Math.PI);
+    paintbrush.fill();
+    paintbrush.fillStyle = "black";
+    paintbrush.beginPath();
+    paintbrush.arc(110, 75, 12, 0, 2 * Math.PI);
+    paintbrush.fill();
+    paintbrush.fillStyle = "white";
+  } //head
+  if (attempt == 2) {
+    paintbrush.fillRect(105, 100, 10, 50);
+    paintbrush.fillRect(107, 95, 6, 5);
+    paintbrush.fillRect(100, 100, 20, 10);
+  } //body
+  if (attempt == 3) {
+    paintbrush.moveTo(100, 100);
+    paintbrush.beginPath();
+    paintbrush.lineTo(100, 110);
+    paintbrush.lineTo(85, 125);
+    paintbrush.lineTo(85, 115);
+    paintbrush.lineTo(100, 100);
+    paintbrush.fill();
+  } //left-arm
+  if (attempt == 4) {
+    paintbrush.moveTo(120, 100);
+    paintbrush.beginPath();
+    paintbrush.lineTo(120, 110);
+    paintbrush.lineTo(135, 125);
+    paintbrush.lineTo(135, 115);
+    paintbrush.lineTo(120, 100);
+    paintbrush.fill();
+  } //right-arm
+  if (attempt == 5) {
+    paintbrush.moveTo(105, 135);
+    paintbrush.beginPath();
+    paintbrush.lineTo(105, 150);
+    paintbrush.lineTo(90, 185);
+    paintbrush.lineTo(90, 170);
+    paintbrush.lineTo(105, 135);
+    paintbrush.fill();
+  } //left-leg
+  if (attempt == 6) {
+    paintbrush.moveTo(115, 135);
+    paintbrush.beginPath();
+    paintbrush.lineTo(115, 150);
+    paintbrush.lineTo(130, 185);
+    paintbrush.lineTo(130, 170);
+    paintbrush.lineTo(115, 135);
+    paintbrush.fill();
+    guessWord = "";
+    alert("You Loose!");
+  } //right-leg
+} //stickMan
+
+</script>
